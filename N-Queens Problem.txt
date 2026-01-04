@@ -1,0 +1,33 @@
+** start of main.py **
+
+def dfs_n_queens(n):
+    if n < 1:
+        return []
+
+    solutions = []
+
+    def is_safe(row, col, board):
+        for r in range(row):
+            c = board[r]
+            # same column or same diagonal
+            if c == col or abs(c - col) == abs(r - row):
+                return False
+        return True
+
+    def dfs(row, board):
+        if row == n:
+            solutions.append(board[:])
+            return
+
+        for col in range(n):
+            if is_safe(row, col, board):
+                board.append(col)
+                dfs(row + 1, board)
+                board.pop()  # backtrack
+
+    dfs(0, [])
+    return solutions
+
+
+** end of main.py **
+
