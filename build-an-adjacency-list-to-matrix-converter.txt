@@ -1,0 +1,32 @@
+** start of main.py **
+
+def adjacency_list_to_matrix(adjacency_list):
+    """
+    Convert an adjacency list representation of a graph to an adjacency matrix.
+    
+    Args:
+        adjacency_list: A dictionary where keys are nodes and values are lists of connected nodes
+        
+    Returns:
+        A 2D list representing the adjacency matrix
+    """
+    # Get the number of nodes
+    n = len(adjacency_list)
+    
+    # Initialize the matrix with zeros
+    matrix = [[0 for _ in range(n)] for _ in range(n)]
+    
+    # Fill in the matrix based on the adjacency list
+    for node, neighbors in adjacency_list.items():
+        for neighbor in neighbors:
+            matrix[node][neighbor] = 1
+    
+    # Print each row
+    for row in matrix:
+        print(row)
+    
+    # Return the matrix
+    return matrix
+
+** end of main.py **
+

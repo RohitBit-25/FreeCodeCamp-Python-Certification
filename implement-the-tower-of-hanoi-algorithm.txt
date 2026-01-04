@@ -1,0 +1,39 @@
+** start of main.py **
+
+def hanoi_solver(n):
+    # Create three pegs: A (source), B (auxiliary), C (destination)
+    peg_a = list(range(n, 0, -1))  # [n, n-1, ..., 2, 1]
+    peg_b = []
+    peg_c = []
+    
+    result = []
+    
+    # Add initial state
+    result.append(f"{peg_a} {peg_b} {peg_c}")
+    
+    def move_disks(num_disks, source, destination, auxiliary):
+        """
+        Move num_disks from source to destination using auxiliary.
+        """
+        if num_disks == 1:
+            # Base case: move one disk directly
+            disk = source.pop()
+            destination.append(disk)
+            result.append(f"{peg_a} {peg_b} {peg_c}")
+        else:
+            # Move n-1 disks from source to auxiliary using destination
+            move_disks(num_disks - 1, source, auxiliary, destination)
+            # Move the largest disk from source to destination
+            disk = source.pop()
+            destination.append(disk)
+            result.append(f"{peg_a} {peg_b} {peg_c}")
+            # Move n-1 disks from auxiliary to destination using source
+            move_disks(num_disks - 1, auxiliary, destination, source)
+    
+    # Solve the puzzle: move from A to C using B as auxiliary
+    move_disks(n, peg_a, peg_c, peg_b)
+    
+    return "\n".join(result)
+
+** end of main.py **
+
