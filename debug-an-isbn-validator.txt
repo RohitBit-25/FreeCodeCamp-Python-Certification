@@ -1,0 +1,92 @@
+** start of main.py **
+
+def calculate_check_digit_10(digits):
+    """Calculate check digit for ISBN-10"""
+    sum_of_products = sum((i + 1) * int(digit) for i, digit in enumerate(digits[:9]))
+    check_digit = sum_of_products % 11
+    return 'X' if check_digit == 10 else str(check_digit)
+
+
+def calculate_check_digit_13(digits):
+    """Calculate check digit for ISBN-13"""
+    sum_of_products = sum(int(digit) * (1 if i % 2 == 0 else 3) for i, digit in enumerate(digits[:12]))
+    check_digit = (10 - (sum_of_products % 10)) % 10
+    return str(check_digit)
+
+
+def validate_isbn(isbn_code, length):
+    """Validate ISBN code based on its length"""
+    
+    if length not in [10, 13]:
+        print("Length should be 10 or 13.")
+        return
+    
+   
+    if len(isbn_code) != length:
+        if length == 10:
+            print("ISBN-10 code should be 10 digits long.")
+        else:
+            print("ISBN-13 code should be 13 digits long.")
+        return
+    
+    
+    try:
+        
+        if length == 10:
+            for i in range(9):
+                int(isbn_code[i])
+            if isbn_code[9] not in '0123456789X':
+                raise ValueError
+        
+        else:
+            for digit in isbn_code:
+                int(digit)
+    except ValueError:
+        print("Invalid character was found.")
+        return
+    
+    
+    if length == 10:
+        expected_check_digit = calculate_check_digit_10(isbn_code)
+    else:
+        expected_check_digit = calculate_check_digit_13(isbn_code)
+    
+    
+    actual_check_digit = isbn_code[-1]
+    
+    if actual_check_digit == expected_check_digit:
+        print("Valid ISBN Code.")
+    else:
+        print("Invalid ISBN Code.")
+
+
+def main():
+    user_input = input("Enter ISBN and length: ")
+    
+    try:
+       
+        isbn_code, length_str = user_input.split(',')
+    except ValueError:
+        print("Enter comma-separated values.")
+        return
+    
+    try:
+        
+        length = int(length_str)
+    except ValueError:
+        print("Length must be a number.")
+        return
+    
+    
+    validate_isbn(isbn_code, length)
+
+#main()
+
+
+
+
+
+
+
+** end of main.py **
+
