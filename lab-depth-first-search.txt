@@ -1,0 +1,22 @@
+** start of main.py **
+
+def dfs(adj_matrix, start_node):
+    visited = []
+    stack = [start_node]
+
+    while stack:
+        node = stack.pop()
+
+        if node not in visited:
+            visited.append(node)
+
+            # Push neighbors in ascending order
+            for neighbor in range(len(adj_matrix[node])):
+                if adj_matrix[node][neighbor] == 1 and neighbor not in visited:
+                    stack.append(neighbor)
+
+    return visited
+
+
+** end of main.py **
+
