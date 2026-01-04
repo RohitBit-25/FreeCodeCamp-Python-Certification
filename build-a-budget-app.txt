@@ -1,0 +1,39 @@
+** start of main.py **
+
+def create_spend_chart(categories):
+    chart = "Percentage spent by category\n"
+    spent = []
+    for category in categories:
+        total = 0
+        for item in category.ledger:
+            if item["amount"] < 0:
+                total += -item["amount"]
+        spent.append(total)
+
+    total_spent = sum(spent)
+    percentages = [int((s / total_spent) * 100) // 10 * 10 for s in spent]
+    for level in range(100, -1, -10):
+        chart += f"{str(level).rjust(3)}| "
+        for i, percent in enumerate(percentages):
+            if percent >= level:
+                chart += "o"
+            else:
+                chart += " "
+            if i < len(percentages) - 1:
+                chart += "  "  # two spaces between categories
+        chart += "  \n"  # two spaces after final category
+    chart += "    -" + "-" * (len(categories) * 3) + "\n"
+    max_len = max(len(category.name) for category in categories)
+    for i in range(max_len):
+        chart += "     "
+        for j, category in enumerate(categories):
+            char = category.name[i] if i < len(category.name) else " "
+            chart += char
+            if j < len(categories) - 1:
+                chart += "  "  # two spaces between categories
+        chart += "  \n"  # two spaces after final category
+
+    return chart.rstrip("\n")
+
+** end of main.py **
+
